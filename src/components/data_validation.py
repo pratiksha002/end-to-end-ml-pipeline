@@ -2,7 +2,7 @@ import pandas as pd
 import yaml
 from src.utils.logger import logger
 
-class DataValidator:
+class DataValidation:
     def __init__(self, schema_path="config/schema.yaml"):
         self.schema_path = schema_path
 
