@@ -1,5 +1,0 @@
-columns:
-  age: int 
-  salary: float 
-  department: object
-  experience: int

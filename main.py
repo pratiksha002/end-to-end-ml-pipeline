@@ -1,4 +1,12 @@
-from src.utils.logger import logger
+from src.components.data_ingestion import DataIngestion
+from src.components.data_validation import DataValidation
 
-logger.info("Pipeline started")
-logger.info("This is a test log")
+if __name__ == "__main__":
+
+    ingestion = DataIngestion()
+    df = ingestion.ingest_data()
+
+    validation = DataValidation()
+    validation.validate_columns(df)
+
+    print("Validation successful")
