@@ -7,7 +7,8 @@ from sklearn.preprocessing import (
 )
 from src.utils.logger import logger
 from src.config.configuration import Configuration
-
+import os
+import joblib
 
 class DataTransformation:
 
@@ -62,8 +63,27 @@ class DataTransformation:
 
             ])
 
+            
+            os.makedirs("artifacts", exist_ok=True)
+
             # Transform data
             transformed_data = preprocessor.fit_transform(df)
+
+            # Save transformed data
+            joblib.dump(
+                transformed_data,
+                "artifacts/transformed_data.pkl"
+            )
+
+            # Save preprocessor object
+            joblib.dump(
+                preprocessor,
+                "artifacts/preprocessor.pkl"
+            )
+
+            logger.info(
+                "Transformation artifacts saved successfully"
+            )
 
             logger.info(
                 "Data transformation completed successfully"
@@ -76,5 +96,4 @@ class DataTransformation:
             logger.error(
                 f"Error during transformation: {e}"
             )
-
             raise e
