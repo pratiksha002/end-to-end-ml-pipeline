@@ -1,0 +1,72 @@
+from src.components.data_ingestion import DataIngestion
+from src.components.data_validation import DataValidation
+from src.components.data_cleaning import DataCleaning
+from src.components.data_transformation import (
+    DataTransformation
+)
+
+from src.utils.logger import logger
+
+
+class TrainingPipeline:
+
+    def __init__(self):
+
+        logger.info(
+            "Training Pipeline initialized"
+        )
+
+    def start_pipeline(self):
+
+        try:
+
+            logger.info(
+                "Pipeline execution started"
+            )
+
+    
+            ingestion = DataIngestion()
+            df = ingestion.ingest_data()
+            logger.info(
+                "Data ingestion completed"
+            )
+
+           
+            validation = DataValidation()
+            validation.validate_columns(df)
+            logger.info(
+                "Data validation completed"
+            )
+
+            
+            cleaning = DataCleaning()
+            cleaned_df = cleaning.clean_data(df)
+            logger.info(
+                "Data cleaning completed"
+            )
+
+           
+            transformation = DataTransformation()
+            transformed_data = (
+                transformation.transform_data(
+                    cleaned_df
+                )
+            )
+
+            logger.info(
+                "Data transformation completed"
+            )
+
+            logger.info(
+                "Pipeline execution completed successfully"
+            )
+
+            return transformed_data
+
+        except Exception as e:
+
+            logger.error(
+                f"Pipeline failed: {e}"
+            )
+
+            raise e
