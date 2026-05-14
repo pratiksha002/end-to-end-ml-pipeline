@@ -11,4 +11,4 @@ if __name__ == "__main__":
         pipeline.start_pipeline()
     )
 
-    print(transformed_data)
+    print("Pipeline executed")

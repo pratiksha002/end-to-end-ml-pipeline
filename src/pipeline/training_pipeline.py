@@ -4,7 +4,7 @@ from src.components.data_cleaning import DataCleaning
 from src.components.data_transformation import (
     DataTransformation
 )
-
+from src.components.model_trainer import ModelTrainer
 from src.utils.logger import logger
 
 
@@ -60,6 +60,10 @@ class TrainingPipeline:
             logger.info(
                 "Pipeline execution completed successfully"
             )
+
+            trainer = ModelTrainer()
+            metrics = trainer.train_model(transformed_data)
+            logger.info(f"Training metrics: {metrics}")
 
             return transformed_data
 
