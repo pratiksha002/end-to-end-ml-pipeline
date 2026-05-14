@@ -8,3 +8,8 @@ class DataIngestionConfig:
 class DataCleaningConfig:
     remove_duplicates: bool
     fill_missing: str
+
+@dataclass
+class DataTransformationConfig:
+    scaling: str
+    encoding: str

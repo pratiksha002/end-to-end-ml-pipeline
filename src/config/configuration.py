@@ -1,5 +1,7 @@
+from logging import config
+
 import yaml
-from src.entity.config_entity import DataIngestionConfig, DataCleaningConfig
+from src.entity.config_entity import DataIngestionConfig, DataCleaningConfig, DataTransformationConfig
 
 class Configuration:
     def __init__(self, config_filepath="config/config.yaml"):
@@ -29,4 +31,13 @@ class Configuration:
         return DataCleaningConfig(
             remove_duplicates=config["remove_duplicates"],
             fill_missing=config["fill_missing"]
+        )
+    
+    def get_data_transformation_config(self):
+
+        config = self.config["data_transformation"]
+
+        return DataTransformationConfig(
+            scaling=config["scaling"],
+            encoding=config["encoding"]
         )
