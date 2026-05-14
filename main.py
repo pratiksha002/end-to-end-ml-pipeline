@@ -1,5 +1,6 @@
 from src.components.data_ingestion import DataIngestion
 from src.components.data_validation import DataValidation
+from src.components.data_cleaning import DataCleaning
 
 if __name__ == "__main__":
 
@@ -9,4 +10,7 @@ if __name__ == "__main__":
     validation = DataValidation()
     validation.validate_columns(df)
 
-    print("Validation successful")
+    cleaning = DataCleaning()
+    cleaned_df = cleaning.clean_data(df)
+
+    print(cleaned_df.head())
