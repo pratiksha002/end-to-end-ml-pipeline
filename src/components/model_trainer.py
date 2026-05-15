@@ -13,14 +13,9 @@ class ModelTrainer:
             exist_ok=True
         )
 
-    def train_model(self, transformed_data):
+    def train_model(self, x, y):
         try:
             logger.info("Model training started")
-
-            # Features and target
-            x = transformed_data[:, :-1]
-
-            y = transformed_data[:, -1]
 
             # Train-test split
             x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)

@@ -25,75 +25,46 @@ class DataTransformation:
 
             logger.info("Data transformation started")
 
-            # Separate column types
-            categorical_columns = df.select_dtypes(
+            # Separate features and target
+            x = df.drop(columns=["salary"])
+
+            y = df["salary"]
+
+            # Detect column types
+            categorical_columns = x.select_dtypes(
                 include=['object']
             ).columns
 
-            numerical_columns = df.select_dtypes(
+            numerical_columns = x.select_dtypes(
                 include=['number']
             ).columns
 
-            logger.info(
-                f"Categorical columns: {list(categorical_columns)}"
-            )
+            logger.info(f"Categorical columns: {list(categorical_columns)}")
 
-            logger.info(
-                f"Numerical columns: {list(numerical_columns)}"
-            )
+            logger.info(f"Numerical columns: {list(numerical_columns)}")
 
             # Numerical pipeline
-            num_pipeline = Pipeline([
-                ('scaler', StandardScaler())
-            ])
+            num_pipeline = Pipeline([('scaler', StandardScaler())])
 
             # Categorical pipeline
-            cat_pipeline = Pipeline([
-                ('encoder', OneHotEncoder(
-                    handle_unknown='ignore'
-                ))
-            ])
+            cat_pipeline = Pipeline([('encoder', OneHotEncoder(handle_unknown='ignore'))])
 
-            # Combine pipelines
+            # Combine preprocessors
             preprocessor = ColumnTransformer([
-
                 ('num', num_pipeline, numerical_columns),
-
                 ('cat', cat_pipeline, categorical_columns)
 
             ])
 
-            
-            os.makedirs("artifacts", exist_ok=True)
+            # Transform ONLY features
+            X_transformed = (preprocessor.fit_transform(x))
 
-            # Transform data
-            transformed_data = preprocessor.fit_transform(df)
-
-            # Save transformed data
-            joblib.dump(
-                transformed_data,
-                "artifacts/transformed_data.pkl"
-            )
-
-            # Save preprocessor object
-            joblib.dump(
-                preprocessor,
-                "artifacts/preprocessor.pkl"
-            )
-
-            logger.info(
-                "Transformation artifacts saved successfully"
-            )
-
-            logger.info(
-                "Data transformation completed successfully"
-            )
-
-            return transformed_data
+            # Save preprocessor
+            os.makedirs("artifacts",exist_ok=True)
+            joblib.dump(preprocessor,"artifacts/preprocessor.pkl")
+            logger.info("Transformation completed successfully")
+            return X_transformed, y
 
         except Exception as e:
-
-            logger.error(
-                f"Error during transformation: {e}"
-            )
+            logger.error(f"Transformation failed: {e}")
             raise e

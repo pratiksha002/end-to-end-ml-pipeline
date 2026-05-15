@@ -47,10 +47,10 @@ class TrainingPipeline:
 
            
             transformation = DataTransformation()
-            transformed_data = (
-                transformation.transform_data(
-                    cleaned_df
-                )
+            x_transformed, y = (
+            transformation.transform_data(
+            cleaned_df
+            )
             )
 
             logger.info(
@@ -62,10 +62,10 @@ class TrainingPipeline:
             )
 
             trainer = ModelTrainer()
-            metrics = trainer.train_model(transformed_data)
+            metrics = trainer.train_model(x_transformed, y)
             logger.info(f"Training metrics: {metrics}")
 
-            return transformed_data
+            return x_transformed
 
         except Exception as e:
 
