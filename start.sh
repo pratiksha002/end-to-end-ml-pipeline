@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Running training pipeline..."
+
+python main.py
+
+echo "Starting FastAPI server..."
+
+uvicorn app.main:app --host 0.0.0.0 --port 8000
